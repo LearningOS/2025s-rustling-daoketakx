@@ -3,7 +3,7 @@
 	This problem requires you to implement a basic interface for a binary tree
 */
 
-//I AM NOT DONE
+
 use std::cmp::Ordering;
 use std::fmt::Debug;
 
@@ -51,12 +51,40 @@ where
     // Insert a value into the BST
     fn insert(&mut self, value: T) {
         //TODO
+        match self.root {
+            None => self.root = Some(Box::new(TreeNode::new(value))),
+            Some(ref mut node) => node.insert(value),
+        }
     }
 
     // Search for a value in the BST
     fn search(&self, value: T) -> bool {
         //TODO
-        true
+        match self.root {
+            None => return false,
+            Some(ref node) => {
+                let mut node_temp = node;
+                loop{
+                    if value == node_temp.value{
+                        return true;
+                    }else if value < node_temp.value{
+                        match node_temp.left{
+                            None => return false,
+                            Some(ref node_next) => {
+                                node_temp = node_next;
+                            }
+                        }
+                    }else {
+                        match node_temp.right {
+                            None => return false,
+                            Some(ref node_next) => {
+                                node_temp = node_next;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -67,6 +95,17 @@ where
     // Insert a node into the tree
     fn insert(&mut self, value: T) {
         //TODO
+        if value < self.value {
+            match self.left{
+                None => self.left = Some(Box::new(TreeNode::new(value))),
+                Some(ref mut node) => node.insert(value),
+            }
+        }else if value > self.value{
+            match self.right {
+                None => self.right = Some(Box::new(TreeNode::new(value))),
+                Some(ref mut node) => node.insert(value),
+            }
+        }
     }
 }
 
